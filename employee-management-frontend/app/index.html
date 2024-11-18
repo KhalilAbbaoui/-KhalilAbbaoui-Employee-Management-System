@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+
+    <!-- Link to external stylesheets -->
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    
+
+</head>
+<body>
+
+    <div ng-app="employeeApp">
+        <div class="container mt-4">
+            <h1 class="text-center">Employee Management</h1>
+            <!-- This is where EmployeeListController will manage the data -->
+            <div ng-controller="EmployeeListController">
+                <div ng-view></div> <!-- AngularJS will inject the views here -->
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Script dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    
+    
+    <!-- Link to the application's scripts -->
+    <script src="config/app.config.js"></script>
+    <script src="services/employee.service.js"></script>
+    <script src="services/auth.service.js"></script>
+    <script src="services/notification.service.js"></script>
+    <script src="directives/form-validation.directive.js"></script>
+    <script src="controllers/employee-list.controller.js"></script>
+    <script src="controllers/employee-form.controller.js"></script>
+    <script src="app/app.js"></script>
+
+</body>
+</html>

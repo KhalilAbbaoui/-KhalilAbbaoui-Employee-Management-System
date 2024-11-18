@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=employee_management
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - mongodb_data:/data/db
+    networks:
+      - employee-network
+    command: mongod --auth
+
+  # Backend Service (Go)
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: employee-backend
+    environment:
+      - MONGODB_URI=mongodb://admin:admin_password@mongodb:27017/employee_management?authSource=admin
+      - JWT_SECRET=your_jwt_secret_key
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    networks:
+      - employee-network
+
+  # Frontend Service (AngularJS)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: employee-frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    networks:
+      - employee-network
+
+networks:
+  employee-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
